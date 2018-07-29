@@ -54,7 +54,7 @@ Page({
         break;
       default:
         this.setData({
-          src: 'https://test.huanjiaohu.com'
+          src: 'https://group.huanjiaohu.com'
         })
     }
   }
