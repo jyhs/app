@@ -42,9 +42,14 @@ Page({
           src: `https://group.huanjiaohu.com/#/ency/${option.id}/detail`
         })
         break;
-      case 'bill':
+      case 'bill-download':
         this.setData({
-          src: `https://static.huanjiaohu.com/bill/download/coral123-950.xlsx`
+          src: `https://static.huanjiaohu.com/bill/${option.id}/download`
+        })
+        break;
+      case 'bill-detail':
+        this.setData({
+          src: `https://group.huanjiaohu.com/#/bill/${option.id}/detail`
         })
         break;
       default:
