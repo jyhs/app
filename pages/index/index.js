@@ -44,7 +44,7 @@ Page({
         break;
       case 'bill-download':
         this.setData({
-          src: `https://static.huanjiaohu.com/bill/${option.id}/download`
+          src: `https://group.huanjiaohu.com/bill/${option.id}/download`
         })
         break;
       case 'bill-detail':
