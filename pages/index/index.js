@@ -42,6 +42,11 @@ Page({
           src: `https://group.huanjiaohu.com/#/ency/${option.id}/detail`
         })
         break;
+      case 'game':
+        this.setData({
+          src: `https://game.huanjiaohu.com`
+        })
+      break;
       case 'bill-download':
         this.setData({
           src: `https://group.huanjiaohu.com/bill/${option.id}/download`
