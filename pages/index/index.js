@@ -9,7 +9,37 @@ Page({
       path: this.share ? '/pages/index/index?' + this.share.param  : '/pages/index/index',
       imageUrl: this.share ? this.share.imageUrl : "https://static.huanjiaohu.com/image/share/default.png",
       success: (res) => {
-        console.log("转发成功", res);
+        const shareTicket = (res.shareTickets && res.shareTickets[0]) || '';
+        wx.getShareInfo({
+          shareTicket: shareTicket,
+          success:  (res) => { 
+            if(this.share.shareUserId){
+              const param = {
+                user_id:this.share.shareUserId,
+                param:this.share.param,
+                encryptedData:res.encryptedData,
+                iv:res.iv
+              }
+              wx.request( {
+                url: "https://api.huanjiaohu.com/api/tools/share/add",
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                method: "POST",
+                data: param,
+                complete: function( res ) {
+                  if( res == null || res.data == null ) {
+                    console.error( '网络请求失败' );
+                    return;
+                  }
+                }
+              })
+            }
+            
+          },
+          fail: function (res) { console.log("fail",res) },
+          complete: function (res) {  }
+        })
       },
       fail: (res) => {
         console.log("转发失败", res);
@@ -59,7 +89,7 @@ Page({
         break;
       default:
         this.setData({
-          src: 'https://group.huanjiaohu.com'
+          src: 'https://group.huanjiaohu.com?uid=1'
         })
     }
   }
