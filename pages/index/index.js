@@ -17,13 +17,15 @@ Page({
               const param = {
                 user_id:this.share.shareUserId,
                 param:this.share.param,
+                auth: this.share.auth,
                 encryptedData:res.encryptedData,
                 iv:res.iv
               }
               wx.request( {
                 url: "https://api.huanjiaohu.com/api/tools/share/add",
                 header: {
-                  "Content-Type": "application/x-www-form-urlencoded"
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  'Authorization': param.auth
                 },
                 method: "POST",
                 data: param,
