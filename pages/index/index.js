@@ -64,7 +64,7 @@ Page({
     switch (option.type) {
       case 'group':
         this.setData({
-          src: `https://group.huanjiaohu.com/?#/buy/${this.compile(option.id + '')}/page`
+          src: `https://group.huanjiaohu.com/#/groupShop/${group.id}`
         })
         break;
       case 'dict':
