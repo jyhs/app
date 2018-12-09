@@ -22,7 +22,7 @@ Page({
                 iv:res.iv
               }
               wx.request( {
-                url: "https://api.huanjiaohu.com/api/tools/share/add",
+                url: "https://api.huanjiaohu.com/share/add",
                 header: {
                   "Content-Type": "application/x-www-form-urlencoded",
                   'Authorization': param.auth
@@ -54,45 +54,51 @@ Page({
       this.share = shareList[shareList.length-1];
     }
   },
-  compile: function (code) {
-    let c = String.fromCharCode(code.charCodeAt(0) + code.length);
-    for (let i = 1; i < code.length; i++) {
-      c += String.fromCharCode(code.charCodeAt(i) + code.charCodeAt(i - 1));
-    }
-    c = escape(c.split('').join(' '));
-    return c;
-  },
   onLoad: function (option) {
-    switch (option.type) {
-      case 'group':
+    if(option.q){
+      const scanUrl = decodeURIComponent(option.q);
+      if(scanUrl.indexOf('groupShop')>0){
+        const id = scanUrl.match(/\d+/);
         this.setData({
-          src: `https://group.huanjiaohu.com/#/groupShop/${option.id}`
+          src: `https://group.huanjiaohu.com/#/groupShop/${id}`
         })
-        break;
-      case 'dict':
-        this.setData({
-          src: `https://group.huanjiaohu.com/#/ency/${option.id}/detail`
-        })
-        break;
-      case 'game':
-        this.setData({
-          src: `https://game.huanjiaohu.com`
-        })
-      break;
-      case 'bill-download':
-        this.setData({
-          src: `https://group.huanjiaohu.com/bill/${option.id}/download`
-        })
-        break;
-      case 'bill-detail':
-        this.setData({
-          src: `https://group.huanjiaohu.com/#/bill/${option.id}/detail`
-        })
-        break;
-      default:
+      }else{
         this.setData({
           src: 'https://group.huanjiaohu.com?uid=1'
         })
+      }
+    }else{
+      switch (option.type) {
+        case 'group':
+          this.setData({
+            src: `https://group.huanjiaohu.com/#/groupShop/${option.id}`
+          })
+          break;
+        case 'dict':
+          this.setData({
+            src: `https://group.huanjiaohu.com/#/ency/${option.id}/detail`
+          })
+          break;
+        case 'game':
+          this.setData({
+            src: `https://game.huanjiaohu.com`
+          })
+        break;
+        case 'bill-download':
+          this.setData({
+            src: `https://group.huanjiaohu.com/bill/${option.id}/download`
+          })
+          break;
+        case 'bill-detail':
+          this.setData({
+            src: `https://group.huanjiaohu.com/#/bill/${option.id}/detail`
+          })
+          break;
+        default:
+          this.setData({
+            src: 'https://group.huanjiaohu.com?uid=1'
+          })
+      }
     }
   }
 })
