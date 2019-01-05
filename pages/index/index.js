@@ -4,44 +4,45 @@ Page({
     src:null
   },
   onShareAppMessage: function (res)  {
+    if(this.share&&this.share.shareUserId){
+      const param = {
+        user_id:this.share.shareUserId,
+        param:this.share.param,
+        auth: this.share.auth
+      }
+      wx.request( {
+        url: "https://api.huanjiaohu.com/share/add",
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          'Authorization': param.auth
+        },
+        method: "POST",
+        data: param,
+        complete: function( res ) {
+          if( res == null || res.data == null ) {
+            console.error( '网络请求失败' );
+            return;
+          }
+        }
+      })
+    }
+
     return {
       title: this.share ? this.share.title : '礁岩海水',
       path: this.share ? '/pages/index/index?' + this.share.param  : '/pages/index/index',
       imageUrl: this.share ? this.share.imageUrl : "https://static.huanjiaohu.com/image/share/default.png",
       success: (res) => {
-        const shareTicket = (res.shareTickets && res.shareTickets[0]) || '';
-        wx.getShareInfo({
-          shareTicket: shareTicket,
-          success:  (res) => { 
-            if(this.share.shareUserId){
-              const param = {
-                user_id:this.share.shareUserId,
-                param:this.share.param,
-                auth: this.share.auth,
-                encryptedData:res.encryptedData,
-                iv:res.iv
-              }
-              wx.request( {
-                url: "https://api.huanjiaohu.com/share/add",
-                header: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                  'Authorization': param.auth
-                },
-                method: "POST",
-                data: param,
-                complete: function( res ) {
-                  if( res == null || res.data == null ) {
-                    console.error( '网络请求失败' );
-                    return;
-                  }
-                }
-              })
-            }
+        // const shareTicket = (res.shareTickets && res.shareTickets[0]) || '';
+        // console.log(shareTicket)
+        // wx.getShareInfo({
+        //   shareTicket: shareTicket,
+        //   success:  (res) => { 
             
-          },
-          fail: function (res) { console.log("fail",res) },
-          complete: function (res) {  }
-        })
+            
+        //   },
+        //   fail: function (res) { console.log("fail",res) },
+        //   complete: function (res) { console.log("fail222", res) }
+        // })
       },
       fail: (res) => {
         console.log("转发失败", res);
